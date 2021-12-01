@@ -59,7 +59,7 @@ export default {
 
       // 2.开启定时器
       this.startTimer()
-    }, 100)
+    }, 300)
   },
   methods: {
     /**
@@ -172,7 +172,7 @@ export default {
       this.setTransform(moveDistance)
     },
 
-    touchEnd: function(e) {
+    touchEnd: function() {
       // 1.获取移动的距离
       let currentMove = Math.abs(this.distance)
 

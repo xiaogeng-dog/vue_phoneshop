@@ -36,9 +36,12 @@ export default {
   width: 100%;
   text-align: center;
   font-size: 12px;
-
   padding: 10px 0 20px;
   border-bottom: 10px solid #eee;
+}
+div > a:link,
+a:visited {
+  color: #666;
 }
 .recommend-item {
   flex: 1;

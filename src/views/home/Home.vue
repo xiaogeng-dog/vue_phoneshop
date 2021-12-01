@@ -32,7 +32,7 @@
 
 <script>
 import HomeSwiper from './childComps/HomeSwiper'
-import RecommendView from './childComps/RecommendView'
+import RecommendView from './childComps/HomeRecommendView'
 import FeatureView from './childComps/FeatureView'
 
 import NavBar from 'components/common/navbar/NavBar'
@@ -152,7 +152,6 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
-
         // 完成上拉加载更多
         this.$refs.scroll.finishPullUp()
       })
@@ -194,7 +193,6 @@ export default {
   position: relative;
   z-index: 9;
 }
-
 /*.content {*/
 /*height: calc(100% - 93px);*/
 /*overflow: hidden;*/
