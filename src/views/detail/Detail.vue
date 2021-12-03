@@ -175,12 +175,12 @@ export default {
       obj.title = this.goods.title
       obj.desc = this.goods.desc
       obj.price = this.goods.realPrice
-      // this.$store.dispatch('addToCart', obj).then(() => {
-      //  this.$toast({message: '加入购物车成功'})
-      // })
-      this.addCart(obj).then(() => {
+      this.$store.dispatch('addToCart', obj).then(() => {
         this.$toast({ message: '加入购物车成功' })
       })
+      // this.addCart(obj).then(() => {
+      //   this.$toast({ message: '加入购物车成功' })
+      // })
     }
   },
   mounted() {
