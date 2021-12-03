@@ -23,6 +23,10 @@ const routes = [
   {
     path: '/profile',
     component: () => import('views/profile/Profile')
+  },
+  {
+    path: '/detail',
+    component: () => import('views/detail/Detail')
   }
 ]
 //2、创建路由对象

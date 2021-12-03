@@ -26,7 +26,7 @@
       />
       <good-list :goods="showGoods" />
     </scroll>
-    <back-top @click.native="backClick" v-show="isShowBackTop" />
+    <back-top @click.native="backTop" v-show="isShowBackTop" />
   </div>
 </template>
 
@@ -39,11 +39,12 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
-import BackTop from 'components/content/backTop/BackTop'
+// import BackTop from 'components/content/backTop/BackTop'
 
 import { getHomeMultidata, getHomeGoods } from 'network/home'
 import { debounce } from 'common/utils'
 
+import { backTopMixin } from 'common/mixin'
 export default {
   name: 'Home',
   components: {
@@ -53,8 +54,8 @@ export default {
     NavBar,
     TabControl,
     GoodList,
-    Scroll,
-    BackTop
+    Scroll
+    // BackTop
   },
   data() {
     return {
@@ -66,12 +67,14 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: 'pop',
-      isShowBackTop: false,
+      // isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
-      saveY: 0
+      saveY: 0,
+      itemImgListener: null
     }
   },
+  mixins: [backTopMixin],
   computed: {
     showGoods() {
       return this.goods[this.currentType].list
@@ -81,11 +84,15 @@ export default {
     console.log('home destroyed')
   },
   activated() {
+    console.log(this.saveY)
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
   },
   deactivated() {
+    // 1.保存Y值
     this.saveY = this.$refs.scroll.getScrollY()
+    // 2.取消全局事件的监听
+    this.$bus.$off('itemImageLoad', this.itemImgListener)
   },
   created() {
     // 1.请求多个数据
@@ -99,9 +106,10 @@ export default {
   mounted() {
     // 1.图片加载完成的事件监听
     const refresh = debounce(this.$refs.scroll.refresh, 50)
-    this.$bus.$on('itemImageLoad', () => {
+    this.itemImgListener = () => {
       refresh()
-    })
+    }
+    this.$bus.$on('itemImageLoad', this.itemImgListener)
   },
   methods: {
     /**
@@ -122,9 +130,9 @@ export default {
       this.$refs.tabControl1.currentIndex = index
       this.$refs.tabControl2.currentIndex = index
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0)
-    },
+    // backTop() {
+    //   this.$refs.scroll.scrollTo(0, 0)
+    // },
     contentScroll(position) {
       // 1.判断BackTop是否显示
       this.isShowBackTop = -position.y > 1000

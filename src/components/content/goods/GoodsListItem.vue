@@ -32,7 +32,7 @@ export default {
   methods: {
     itemClick() {
       // 1.获取iid
-      const iid = this.goodsItem.iid
+      const iid = this.goodsItem.iid || this.goodsItem.item_id
       // 2.跳转到详情页面
       this.$router.push({ path: '/detail', query: { iid } })
     },
